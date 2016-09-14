@@ -2,12 +2,36 @@
 
 The Alexa Skills that will suggest movies based on your mood.
 
-## How to Run the Sample
+## Getting started
 
-Clone the project and package the skill:
+### 1. Clone the repository
+
 ```bash
-git clone <repo>
-cd alexa-movie-suggest/src
+git clone https://github.com/chaudharyarvind/alexa-suggest-movie.git
+```
+
+### 2. Install node dependencies
+
+```bash
 npm install
-zip -r ../alexa-movie-suggest.zip *
+```
+
+## Development commands
+
+### Build the sample package
+
+This will create a .zip file in `dist/alexa-movie-suggest.zip`
+
+```bash
+npm run build
+```
+
+### Run tests
+
+```bash
+# Single run
+npm run test
+
+# Test and then watch for changes
+npm run test -- -w
 ```
