@@ -1,0 +1,23 @@
+{
+  "name": "alexa-suggest-movie",
+  "version": "0.0.0",
+  "description": "The Alexa Skills that will suggest movies based on your mood",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo 'Not implemented' && exit 1",
+    "build": "rm -rf dist/ 2> /dev/null && mkdir dist && zip -r dist/alexa-movie-suggest.zip * -x \\*dist\\* \\*.git\\*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chaudharyarvind/alexa-suggest-movie.git"
+  },
+  "keywords": [
+    "alexa"
+  ],
+  "author": "DiUS Computing PTY",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/chaudharyarvind/alexa-suggest-movie/issues"
+  },
+  "homepage": "https://github.com/chaudharyarvind/alexa-suggest-movie#readme"
+}
