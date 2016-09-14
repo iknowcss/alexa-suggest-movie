@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "test": "echo 'Not implemented' && exit 1",
-    "build": "rm -rf dist/ 2> /dev/null && mkdir dist && zip -r dist/alexa-movie-suggest.zip * -x \\*dist\\* \\*.git\\*"
+    "build": "rm -rf dist/ 2> /dev/null && mkdir dist && zip -9 -r dist/alexa-suggest-movie.zip package.json src/ node_modules/"
   },
   "repository": {
     "type": "git",
