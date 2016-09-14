@@ -19,5 +19,11 @@
   "bugs": {
     "url": "https://github.com/chaudharyarvind/alexa-suggest-movie/issues"
   },
-  "homepage": "https://github.com/chaudharyarvind/alexa-suggest-movie#readme"
+  "homepage": "https://github.com/chaudharyarvind/alexa-suggest-movie#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.0.2",
+    "sinon": "^1.17.5",
+    "sinon-chai": "^2.8.0"
+  }
 }
