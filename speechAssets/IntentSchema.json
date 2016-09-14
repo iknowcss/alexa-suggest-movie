@@ -1,0 +1,12 @@
+{
+  "intents": [
+    {
+      "intent": "SuggestMovie",
+      "slots": []
+    },
+    {
+      "intent": "HelpIntent",
+      "slots": []
+    }
+  ]
+}
