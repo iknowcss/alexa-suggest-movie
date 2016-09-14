@@ -7,7 +7,7 @@ The Alexa Skills that will suggest movies based on your mood.
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/chaudharyarvind/alexa-suggest-movie.git
+https://github.com/iknowcss/alexa-suggest-movie.git
 ```
 
 ### 2. Provision the Vagrant box
