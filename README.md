@@ -10,7 +10,32 @@ The Alexa Skills that will suggest movies based on your mood.
 git clone https://github.com/chaudharyarvind/alexa-suggest-movie.git
 ```
 
-### 2. Install node dependencies
+### 2. Provision the Vagrant box
+
+The first time you run this command it will provision your Vagrant box. 
+In the future you will start your Vagrant box the same way but it will
+take much less time.
+
+**Note**: This will take up to 10 minutes
+
+```bash
+vagrant up
+```
+
+
+
+### 3. Connect to the Vagrant box
+
+```bash
+vagrant ssh
+```
+
+From this point on you will run all of your development commands from
+inside the Vagrant box. This is your development environment.
+
+### 4. Install node dependencies
+
+Run this inside the Vagrant box (see previous step)
 
 ```bash
 npm install
