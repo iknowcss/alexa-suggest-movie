@@ -43,6 +43,14 @@ npm install
 
 ## Development commands
 
+Most of the dev commands should be run inside your Vagrant box
+
+### Connect to your Vagrant box
+
+```bash
+vagrant ssh
+```
+
 ### Build the sample package
 
 This will create a .zip file in `dist/alexa-movie-suggest.zip`
