@@ -12,6 +12,9 @@ const findIndex = require('lodash/findIndex');
 
 const mapEmotionsToGenres = require('../mapEmotionsToGenres');
 
+console.log('**** __dirname', __dirname);
+console.log("**** path.join(__dirname, '../data')", path.join(__dirname, '../data'));
+
 const DATA_DIR_PATH = path.join(__dirname, '../data');
 const MOVIES_CSV = 'ml-latest-small/movies.csv';
 const RATINGS_CSV = 'ml-latest-small/ratings.csv';
