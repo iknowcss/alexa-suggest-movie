@@ -51,7 +51,7 @@ module.exports = function (event, context) {
         .searchSync({emotions: emotions});
 
       if (movies.length === 0) {
-        speechOutput = 'I could not find any movies to make you feel all of those emotions';
+        speechOutput = 'I could not find any movies to make you feel those particular emotions';
         this.emit(':tell', speechOutput);
       } else {
         var movie = movies[random(Math.min(MOVIE_RANDOMNESS, movies.length))];
