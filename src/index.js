@@ -1,5 +1,6 @@
 const http = require('http');
 const Alexa = require('alexa-sdk');
+const get = require('lodash/get');
 const movieRepository = require('./db/movieRepository');
 
 const APP_ID = '[your app id]';
@@ -19,9 +20,9 @@ const handlers = {
 
   'GetMovie': function () {
     // Create speech output
-    var emotion = this.event.request.intent.slots.emotion.value;
-    var emotion2 = this.event.request.intent.slots.fred.value;
-    var emotion3 = this.event.request.intent.slots.mary.value;
+    var emotion = get(this.event, 'request.intent.slots.emotion.value');
+    var emotion2 = get(this.event, 'request.intent.slots.fred.value');
+    var emotion3 = get(this.event, 'request.intent.slots.mary.value');
     var speechOutput = 'You already feel that way';
 
     if (emotion) {

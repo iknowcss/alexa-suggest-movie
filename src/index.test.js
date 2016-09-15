@@ -12,10 +12,13 @@ describe('index', function () {
   var mockAlexaObject;
 
   before(function () {
-    alexaMock.handler = function () {
+    alexaMock.handler = function (event, context) {
       return mockAlexaObject = {
         registerHandlers: sandbox.spy(),
-        execute: sandbox.spy()
+        execute: sandbox.spy(),
+        emit: sandbox.spy(),
+        event: event,
+        context: context
       };
     };
   });
@@ -28,18 +31,29 @@ describe('index', function () {
   describe('handler definition', function () {
     var handlers;
 
-    beforeEach(function () {
-      index.handler();
+    function setup(event, context) {
+      index.handler(event, context);
       handlers = mockAlexaObject.registerHandlers.firstCall.args[0];
-    });
+    }
 
     it('initialises', function () {
+      setup();
       expect(mockAlexaObject.registerHandlers).to.have.been.calledOnce;
       expect(mockAlexaObject.execute).to.have.been.calledOnce;
     });
 
     it('defines GetMovie', function () {
-      handlers['GetMovie']();
+      setup({
+        request: {intent: {slots: {
+          emotion: {value: 'happy'}
+        }}}
+      });
+
+      handlers['GetMovie'].call(mockAlexaObject);
+
+      var lastCallArgs = mockAlexaObject.emit.lastCall.args;
+      expect(lastCallArgs[0]).to.eql(':tellWithCard');
+      expect(lastCallArgs[1]).to.eql('You will feel happy after watching Toy Story (1995)');
     });
   });
 });
