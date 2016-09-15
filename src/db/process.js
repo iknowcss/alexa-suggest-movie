@@ -1,7 +1,10 @@
-var Promise = require('bluebird');
-var path = require('path');
-var fs = require('fs');
-var Papa = require('papaparse');
+const Promise = require('bluebird');
+const path = require('path');
+const fs = require('fs');
+const Papa = require('papaparse');
+const forEach = require('lodash/foreach');
+const cloneDeep = require('lodash/cloneDeep');
+const merge = require('lodash/merge');
 
 var readFile = Promise.promisify(fs.readFile);
 
@@ -10,13 +13,9 @@ const MOVIES_CSV = 'ml-latest-small/movies.csv';
 const RATINGS_CSV = 'ml-latest-small/ratings.csv';
 const LINKS_CSV = 'ml-latest-small/links.csv';
 
-function readCsv(dataPath) {
-  return readFile(path.resolve(DATA_DIR_PATH, dataPath), 'utf-8');
-}
+/// - Core CSV processing ------------------------------------------------------
 
-/// - Process movies.csv -------------------------------------------------------
-
-function parseMovieDataFromCsv(csvData) {
+function parseDataFromCsv(csvData) {
   return new Promise(function (fulfill) {
     Papa.parse(csvData, {
       header: true,
@@ -27,33 +26,102 @@ function parseMovieDataFromCsv(csvData) {
   });
 }
 
-function processMovieData(movies) {
-  return movies
-    .map(function (movie) {
-      return {
-        movieId: parseInt(movie.movieId, 10),
-        title: movie.title,
-        genres: movie.genres ? movie.genres.split('|') : []
-      };
-    });
+function loadDataFromCsv(dataPath) {
+  return readFile(path.resolve(DATA_DIR_PATH, dataPath), 'utf-8')
+    .then(parseDataFromCsv);
 }
 
-function loadMovies() {
-  return readCsv(MOVIES_CSV, 'utf-8')
-    .then(parseMovieDataFromCsv)
-    .then(processMovieData);
+/// - Process movies -----------------------------------------------------------
+
+var moviesCache;
+
+function loadMovies(refresh) {
+  if (moviesCache && !refresh) {
+    return Promise.resolve(moviesCache);
+  }
+
+  const indexedData = {};
+  return loadDataFromCsv(MOVIES_CSV, 'utf-8')
+    .then(function (movies) {
+      movies.forEach(function (movie) {
+        indexedData[movie.movieId] = {
+          id: movie.movieId,
+          title: movie.title,
+          genres: movie.genres ? movie.genres.split('|') : []
+        };
+      });
+
+      return moviesCache = indexedData;
+    });
 }
 
 /// - Process ratings ----------------------------------------------------------
 
-function loadRatings() {
-
+function buildBaseRatingData() {
+  return {
+    ratingTotal: 0,
+    ratingCount: 0,
+    averageRating: 0
+  };
 }
 
-/// - Process links ------------------------------------------------------------
+var ratingsCache;
+
+function loadRatings(refresh) {
+  if (ratingsCache && !refresh) {
+    return Promise.resolve(ratingsCache);
+  }
+
+  const indexedData = {};
+  return loadDataFromCsv(RATINGS_CSV, 'utf-8')
+    .then(function (ratings) {
+      forEach(ratings, function (rating) {
+        var movie = indexedData[rating.movieId];
+        if (!movie) {
+          movie = indexedData[rating.movieId] = buildBaseRatingData();
+        }
+
+        movie.ratingTotal += Math.round(parseFloat(rating.rating) * 100);
+        movie.ratingCount++;
+      });
+
+      forEach(indexedData, function (movie) {
+        movie.averageRating = Math.round(movie.ratingTotal / movie.ratingCount);
+      });
+
+      return ratingsCache = indexedData;
+    });
+}
+
+/// - Put it all together ------------------------------------------------------
+
+function loadMovieData() {
+  return Promise.join(loadMovies(), loadRatings(), function (movies, ratings) {
+    const indexedData = {};
+
+    forEach(movies, function (movie) {
+      var ratingData = ratings[movie.id] || buildBaseRatingData();
+      indexedData[movie.id] = merge(cloneDeep(movie), ratingData);
+    });
+
+    return indexedData;
+  });
+}
+
+/// - Caching features ---------------------------------------------------------
+
+function warmCache() {
+  return Promise.all([loadMovies(), loadRatings()])
+    .then(function () {
+      return null;
+    });
+}
 
 /// - Processing flow ----------------------------------------------------------
 
-module.exports = function () {
-  return loadMovies();
+module.exports = {
+  loadMovies: loadMovies,
+  loadRatings: loadRatings,
+  loadMovieData: loadMovieData,
+  warmCache: warmCache
 };
