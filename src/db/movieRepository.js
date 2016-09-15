@@ -8,6 +8,9 @@ const cloneDeep = require('lodash/cloneDeep');
 const merge = require('lodash/merge');
 const map = require('lodash/map');
 const filter = require('lodash/filter');
+const findIndex = require('lodash/findIndex');
+
+const mapEmotionsToGenres = require('../mapEmotionsToGenres');
 
 const DATA_DIR_PATH = path.resolve(__dirname, '../../data');
 const MOVIES_CSV = 'ml-latest-small/movies.csv';
@@ -21,28 +24,35 @@ function returnNull() {
   return null;
 }
 
+const FULFILLED = 'FULFILLED';
+const REJECTED = 'REJECTED';
+const PENDING = 'PENDING';
+
 function syncify(fn) {
   return function () {
+    var resolveState = PENDING;
     var fulfillResult;
     var rejectResult;
 
-    fn()
+    fn.apply(null, arguments)
       .then(function (result) {
+        resolveState = FULFILLED;
         fulfillResult = result;
       })
       .catch(function (result) {
+        resolveState = REJECTED;
         rejectResult = result;
       });
 
     deasync.loopWhile(function () {
-      return !fulfillResult && !rejectResult;
+      return resolveState === PENDING;
     });
 
-    if (fulfillResult) {
-      return fulfillResult;
+    switch (resolveState) {
+      case FULFILLED: return fulfillResult;
+      case REJECTED: return rejectResult;
+      default: throw new Error('Unknown promise state');
     }
-
-    throw rejectResult;
   };
 }
 
@@ -160,8 +170,14 @@ function search(options) {
 }
 
 function filterByEmotions(emotions) {
+  const matchingGenres = mapEmotionsToGenres(emotions);
+
   return function (movies) {
-    filter()
+    return filter(movies, function (movie) {
+      return 0 <= findIndex(matchingGenres, function (genre) {
+        return movie.genres.indexOf(genre) >= 0;
+      });
+    });
   };
 }
 
@@ -184,6 +200,7 @@ module.exports = {
   getAllMovies: getAllMovies,
   getAllMoviesSync: syncify(getAllMovies),
   search: search,
+  searchSync: syncify(search),
   init: function () {
     return init()
       .then(getAllMovies)

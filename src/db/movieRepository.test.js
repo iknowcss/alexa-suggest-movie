@@ -31,21 +31,7 @@ describe('Movie repository', function () {
       });
   });
 
-  it('combines all data', function () {
-    return movieRepository.getAllMovies()
-      .then(function (result) {
-        expect(result[0]).to.eql({
-          id: '1',
-          title: 'Toy Story (1995)',
-          genres: ['Adventure', 'Animation', 'Children', 'Comedy', 'Fantasy'],
-          ratingTotal: 90650,
-          ratingCount: 232,
-          averageRating: 391
-        });
-      });
-  });
-
-  it('combines all data synchronously', function () {
+  it('synchronously gets data on all movies', function () {
     var result = movieRepository.getAllMoviesSync();
 
     expect(result[0]).to.eql({
@@ -58,12 +44,11 @@ describe('Movie repository', function () {
     });
   });
 
-  xit('searches for movies which match the given emotions', function () {
-    return movieRepository.search({
+  it('synchronously searches for movies which match the given emotions', function () {
+    var result = movieRepository.searchSync({
       emotions: ['exhilarated', 'inspired']
-    })
-      .then(function (movies) {
-        console.log('movies.length', movies.length);
-      });
+    });
+
+    console.log('result.length', result.length);
   });
 });
