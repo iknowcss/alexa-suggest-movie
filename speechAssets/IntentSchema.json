@@ -6,6 +6,14 @@
         {
           "name": "emotion",
           "type": "LIST_OF_EMOTIONS"
+        },
+        {
+          "name": "fred",
+          "type": "LIST_OF_EMOTIONS"
+        },
+        {
+          "name": "mary",
+          "type": "LIST_OF_EMOTIONS"
         }
       ]
     },

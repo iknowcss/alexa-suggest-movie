@@ -6,7 +6,7 @@ const random = require('./src/random');
 
 const APP_ID = '[your app id]';
 const SKILL_NAME = 'Suggest Movie';
-const MOVIE_RANDOMNESS = 10;
+const MOVIE_RANDOMNESS = 100;
 
 movieRepository.init();
 
@@ -16,7 +16,6 @@ const handlers = {
   },
 
   'SuggestMovie': function () {
-    this.emit(':tell', 'Let me see what I can find');
     this.emit('GetMovie');
   },
 
@@ -26,22 +25,28 @@ const handlers = {
     var emotion2 = get(this.event, 'request.intent.slots.fred.value');
     var emotion3 = get(this.event, 'request.intent.slots.mary.value');
     var speechOutput = 'You already feel that way';
+    var emotions = [];
 
     if (emotion) {
       if (emotion2) {
         if (emotion3) {
           speechOutput = 'You will feel ' + emotion + ' ' + emotion2 + ' and '+ emotion3;
+          emotions.push(emotion3);
         }
         else {
           speechOutput = 'You will feel ' + emotion + ' and ' + emotion2;
+          emotions.push(emotion2);
         }
       }
       else {
         speechOutput = 'You will feel ' + emotion ;
+        emotions.push(emotion);
       }
     }
 
-    var movies = movieRepository.getAllMoviesSync();
+    var movies = movieRepository.searchSync({
+      emotions: emotions
+    });
     var movie = movies.slice(0, MOVIE_RANDOMNESS)[random(MOVIE_RANDOMNESS)];
 
     var speechOutput = speechOutput + ' after watching ' + movie.title;

@@ -11,7 +11,7 @@ const filter = require('lodash/filter');
 const findIndex = require('lodash/findIndex');
 const sortBy = require('lodash/sortBy');
 
-const mapEmotionsToGenres = require('../mapEmotionsToGenres');
+const emotionGenreMapper = require('../emotionGenreMapper');
 
 const DATA_DIR_PATH = path.join(__dirname, '../data');
 const MOVIES_CSV = 'ml-latest-small/movies.csv';
@@ -174,7 +174,7 @@ function search(options) {
 }
 
 function filterByEmotions(emotions) {
-  const matchingGenres = mapEmotionsToGenres(emotions);
+  const matchingGenres = emotionGenreMapper.genresforEmotions(emotions);
 
   return function (movies) {
     return filter(movies, function (movie) {
