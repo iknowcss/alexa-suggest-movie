@@ -2,9 +2,11 @@ const http = require('http');
 const Alexa = require('alexa-sdk');
 const get = require('lodash/get');
 const movieRepository = require('./src/db/movieRepository');
+const random = require('./src/random');
 
 const APP_ID = '[your app id]';
 const SKILL_NAME = 'Suggest Movie';
+const MOVIE_RANDOMNESS = 10;
 
 movieRepository.init();
 
@@ -40,7 +42,8 @@ const handlers = {
     }
 
     var movies = movieRepository.getAllMoviesSync();
-    var movie = movies[0];
+    var movie = movies.slice(0, MOVIE_RANDOMNESS)[random(MOVIE_RANDOMNESS)];
+
     var speechOutput = speechOutput + ' after watching ' + movie.title;
 
     this.emit(':tellWithCard', speechOutput, SKILL_NAME, movie.title);

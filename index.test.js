@@ -3,9 +3,11 @@ const proxyquire = require('proxyquire');
 const sandbox = sinon.sandbox.create();
 
 const alexaMock = {};
+const randomMock = sandbox.stub();
 
 const index = proxyquire('./index', {
-  'alexa-sdk': alexaMock
+  'alexa-sdk': alexaMock,
+  './src/random': randomMock
 });
 
 describe('index', function () {
@@ -25,6 +27,7 @@ describe('index', function () {
 
   beforeEach(function () {
     sandbox.reset();
+    randomMock.returns(0);
     mockAlexaObject = null;
   });
 
@@ -53,7 +56,27 @@ describe('index', function () {
 
       var lastCallArgs = mockAlexaObject.emit.lastCall.args;
       expect(lastCallArgs[0]).to.eql(':tellWithCard');
-      expect(lastCallArgs[1]).to.eql('You will feel happy after watching Toy Story (1995)');
+      expect(lastCallArgs[1]).to.match(/^You will feel happy after watching /);
+    });
+
+    it('GetMovie yields random movies', function () {
+      setup({
+        request: {intent: {slots: {
+          emotion: {value: 'scared'}
+        }}}
+      });
+
+      var lastSuggestion;
+
+      randomMock.returns(1);
+      handlers['GetMovie'].call(mockAlexaObject);
+      lastSuggestion = mockAlexaObject.emit.lastCall.args[1];
+      expect(lastSuggestion).to.eql('You will feel scared after watching Jumanji (1995)');
+
+      randomMock.returns(7);
+      handlers['GetMovie'].call(mockAlexaObject);
+      lastSuggestion = mockAlexaObject.emit.lastCall.args[1];
+      expect(lastSuggestion).to.eql('You will feel scared after watching Tom and Huck (1995)');
     });
   });
 });
