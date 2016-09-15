@@ -27,31 +27,36 @@ const handlers = {
     var speechOutput = 'You already feel that way';
     var emotions = [];
 
+    if (emotion) emotions.push(emotion);
+    if (emotion2) emotions.push(emotion2);
+    if (emotion3) emotions.push(emotion3);
+
     if (emotion) {
       if (emotion2) {
         if (emotion3) {
           speechOutput = 'You will feel ' + emotion + ' ' + emotion2 + ' and '+ emotion3;
-          emotions.push(emotion3);
         }
         else {
           speechOutput = 'You will feel ' + emotion + ' and ' + emotion2;
-          emotions.push(emotion2);
         }
       }
       else {
         speechOutput = 'You will feel ' + emotion ;
-        emotions.push(emotion);
       }
     }
 
-    var movies = movieRepository.searchSync({
-      emotions: emotions
-    });
-    var movie = movies.slice(0, MOVIE_RANDOMNESS)[random(MOVIE_RANDOMNESS)];
+    var movies = movieRepository
+      .searchSync({emotions: emotions});
 
-    var speechOutput = speechOutput + ' after watching ' + movie.title;
+    if (movies.length === 0) {
+      speechOutput = 'I could not find any movies to make you feel all of those emotions';
+      this.emit(':tell', speechOutput);
+    } else {
+      var movie = movies[random(Math.min(MOVIE_RANDOMNESS, movies.length))];
+      var speechOutput = speechOutput + ' after watching ' + movie.title;
 
-    this.emit(':tellWithCard', speechOutput, SKILL_NAME, movie.title);
+      this.emit(':tellWithCard', speechOutput, SKILL_NAME, movie.title);
+    }
   },
 
   'AMAZON.HelpIntent': function () {

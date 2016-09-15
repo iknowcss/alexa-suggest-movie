@@ -78,5 +78,21 @@ describe('index', function () {
       lastSuggestion = mockAlexaObject.emit.lastCall.args[1];
       expect(lastSuggestion).to.eql('You will feel scared after watching Beast of War, The (Beast, The) (1988)');
     });
+
+    it('GetMovie tells you when there are no matching movies', function () {
+      setup({
+        request: {intent: {slots: {
+          fred: {value: 'sad'},
+          emotion: {value: 'happy'},
+          mary: {value: 'smart'}
+        }}}
+      });
+
+      var lastSuggestion;
+
+      handlers['GetMovie'].call(mockAlexaObject);
+      lastSuggestion = mockAlexaObject.emit.lastCall.args[1];
+      expect(lastSuggestion).to.eql('I could not find any movies to make you feel all of those emotions');
+    });
   });
 });
