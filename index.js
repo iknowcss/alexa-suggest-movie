@@ -1,7 +1,7 @@
 const http = require('http');
 const Alexa = require('alexa-sdk');
 const get = require('lodash/get');
-const emotionGenreMapper = require('./emotionGenreMapper');
+const emotionGenreMapper = require('./src/emotionGenreMapper');
 const movieRepository = require('./src/db/movieRepository');
 
 const APP_ID = '[your app id]';
