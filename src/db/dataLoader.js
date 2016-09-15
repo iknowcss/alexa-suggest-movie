@@ -103,7 +103,7 @@ function getAllMovies(refresh) {
     return Promise.resolve(movieDataCache);
   }
 
-  return (preloadCsvDataPromise || preloadCsvData())
+  return (initPromise || init())
     .then(function () {
       return Promise.join(loadMovies(), loadRatings(), function (movies, ratings) {
         return movieDataCache = map(movies, function (movie) {
@@ -116,12 +116,12 @@ function getAllMovies(refresh) {
 
 /// - Caching features ---------------------------------------------------------
 
-var preloadCsvDataPromise;
+var initPromise;
 
-function preloadCsvData() {
-  if (preloadCsvDataPromise) return preloadCsvDataPromise;
+function init() {
+  if (initPromise) return initPromise;
 
-  return preloadCsvDataPromise = Promise.all([loadMovies(), loadRatings()])
+  return initPromise = Promise.all([loadMovies(), loadRatings()])
     .then(function () {
       return null;
     });
@@ -133,5 +133,5 @@ module.exports = {
   loadMovies: loadMovies,
   loadRatings: loadRatings,
   getAllMovies: getAllMovies,
-  preloadCsvData: preloadCsvData
+  init: init
 };

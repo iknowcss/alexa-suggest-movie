@@ -1,12 +1,12 @@
-var dataLoader = require('./dataLoader');
+var movieRepository = require('./dataLoader');
 
 describe('data processing', function () {
   before(function () {
-    return dataLoader.preloadCsvData();
+    return movieRepository.init();
   });
 
   it('parses movie data', function () {
-    return dataLoader.loadMovies()
+    return movieRepository.loadMovies()
       .then(function (result) {
         expect(result['1']).to.eql({
           id: '1',
@@ -17,7 +17,7 @@ describe('data processing', function () {
   });
 
   it('aggregates rating data', function () {
-    return dataLoader.loadRatings()
+    return movieRepository.loadRatings()
       .then(function (result) {
         expect(result['1']).to.eql({
           ratingTotal: 90650,
@@ -28,7 +28,7 @@ describe('data processing', function () {
   });
 
   it('combines all data', function () {
-    return dataLoader.getAllMovies()
+    return movieRepository.getAllMovies()
       .then(function (result) {
         expect(result[0]).to.eql({
           id: '1',

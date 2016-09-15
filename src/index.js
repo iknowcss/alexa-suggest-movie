@@ -1,11 +1,11 @@
 const http = require('http');
 const Alexa = require('alexa-sdk');
-const dataLoader = require('./db/dataLoader');
+const movieRepository = require('./db/dataLoader');
 
 const APP_ID = '[your app id]';
 const SKILL_NAME = 'Suggest Movie';
 
-dataLoader.preloadCsvData();
+movieRepository.init();
 
 const handlers = {
     'LaunchRequest': function () {
@@ -20,9 +20,14 @@ const handlers = {
     'GetMovie': function () {
         // Create speech output
         var emotion = this.event.request.intent.slots.emotion.value;
-        var speechOutput = 'You will feel ' + emotion + 'after watching DeadPool';
 
-        this.emit(':tellWithCard', speechOutput, SKILL_NAME, 'DeadPool');
+        movieRepository.getAllMovies()
+          .then(function (movies) {
+            var movie = movies[0];
+            var speechOutput = 'You will feel ' + emotion + 'after watching ' + movie.title;
+
+            this.emit(':tellWithCard', speechOutput, SKILL_NAME, movie.title);
+          });
     },
 
     'AMAZON.HelpIntent': function () {
