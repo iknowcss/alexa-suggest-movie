@@ -2,11 +2,11 @@
   "name": "alexa-suggest-movie",
   "version": "0.0.0",
   "description": "The Alexa Skills that will suggest movies based on your mood",
-  "main": "src/index.js",
+  "main": "index.js",
   "scripts": {
-    "test": "mocha  --watch-extensions js,json src/.mocha.js 'src/**/*.test.js'",
-    "build": "npm i && rm -rf dist/ 2> /dev/null && mkdir dist && zip -9 -r dist/alexa-suggest-movie.zip package.json node_modules/ && cd src && zip -9 -r ../dist/alexa-suggest-movie.zip * && cd ..",
-    "ziptest": "npm run build && cd dist && unzip alexa-suggest-movie.zip && ../node_modules/.bin/mocha ../src/.mocha.js '**/*.test.js' && cd ../ && rm -rf dist"
+    "test": "mocha  --watch-extensions js,json src/.mocha.js '**/*.test.js'",
+    "build": "npm i && rm -rf dist/ 2> /dev/null && mkdir dist && zip -9 -r dist/alexa-suggest-movie_$(date +%s).zip package.json index.js index.test.js src/ node_modules/ && cd ..",
+    "test.zip": "npm run build && cd dist && unzip alexa-suggest-movie_*.zip && ../node_modules/.bin/mocha ../src/.mocha.js '**/*.test.js' && cd ../ && rm -rf dist"
   },
   "repository": {
     "type": "git",

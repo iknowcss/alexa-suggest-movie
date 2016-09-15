@@ -3,7 +3,7 @@ const path = require('path');
 const fs = require('fs');
 const Papa = require('papaparse');
 const deasync = require('deasync');
-const forEach = require('lodash/foreach');
+const forEach = require('lodash/forEach');
 const cloneDeep = require('lodash/cloneDeep');
 const merge = require('lodash/merge');
 const map = require('lodash/map');
@@ -12,7 +12,7 @@ const findIndex = require('lodash/findIndex');
 
 const emotionGenreMapper = require('../emotionGenreMapper');
 
-const DATA_DIR_PATH = path.resolve(__dirname, '../data');
+const DATA_DIR_PATH = path.join(__dirname, '../data');
 const MOVIES_CSV = 'ml-latest-small/movies.csv';
 const RATINGS_CSV = 'ml-latest-small/ratings.csv';
 
@@ -76,7 +76,7 @@ function loadDataFromCsv(dataPath) {
 
 /// - Process movies -----------------------------------------------------------
 
-var moviesCache;
+var moviesCache = require('./movies.json');
 
 function loadMovies(refresh) {
   if (moviesCache && !refresh) {
@@ -94,7 +94,8 @@ function loadMovies(refresh) {
         };
       });
 
-      return moviesCache = indexedData;
+      moviesCache = indexedData;
+      return moviesCache;
     });
 }
 
@@ -108,7 +109,7 @@ function buildBaseRatingData() {
   };
 }
 
-var ratingsCache;
+var ratingsCache = require('./ratings.json');
 
 function loadRatings(refresh) {
   if (ratingsCache && !refresh) {
@@ -132,7 +133,8 @@ function loadRatings(refresh) {
         movie.averageRating = Math.round(movie.ratingTotal / movie.ratingCount);
       });
 
-      return ratingsCache = indexedData;
+      ratingsCache = indexedData;
+      return ratingsCache;
     });
 }
 

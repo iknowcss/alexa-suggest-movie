@@ -1,8 +1,8 @@
 const http = require('http');
 const Alexa = require('alexa-sdk');
 const get = require('lodash/get');
-const movieRepository = require('./db/movieRepository');
 const emotionGenreMapper = require('./emotionGenreMapper');
+const movieRepository = require('./src/db/movieRepository');
 
 const APP_ID = '[your app id]';
 const SKILL_NAME = 'Suggest Movie';
@@ -15,7 +15,6 @@ const handlers = {
   },
 
   'SuggestMovie': function () {
-    this.emit(':tell', 'Let me see what I can find');
     this.emit('GetMovie');
   },
 
