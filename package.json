@@ -27,6 +27,7 @@
     "sinon-chai": "^2.8.0"
   },
   "dependencies": {
+    "alexa-sdk": "^1.0.0",
     "bluebird": "^3.4.6",
     "papaparse": "^4.1.2"
   }

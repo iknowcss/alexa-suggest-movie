@@ -1,4 +1,5 @@
-SuggestMovie suggest movie
+SuggestMovie which makes me {emotion}
+
 
 HelpIntent help
 HelpIntent help me
