@@ -26,7 +26,7 @@ module.exports = function (event, context) {
       var emotion = get(this.event, 'request.intent.slots.emotion.value');
       var emotion2 = get(this.event, 'request.intent.slots.fred.value');
       var emotion3 = get(this.event, 'request.intent.slots.mary.value');
-      var speechOutput = 'You already feel that way';
+      var speechOutput = 'I can help feel, but only if you tell me what you want to feel.';
       var emotions = [];
 
       if (emotion) emotions.push(emotion);
@@ -62,7 +62,7 @@ module.exports = function (event, context) {
     },
 
     'AMAZON.HelpIntent': function () {
-      var speechOutput = 'You can say suggest me a movie  , or, you can say exit... What can I help you with?';
+      var speechOutput = 'You can say suggest me a movie, or, you can say exit... What can I help you with?';
       var reprompt = 'What can I help you with?';
       this.emit(':ask', speechOutput, reprompt);
     }
