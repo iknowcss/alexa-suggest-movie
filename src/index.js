@@ -1,6 +1,6 @@
 const http = require('http');
 const Alexa = require('alexa-sdk');
-const movieRepository = require('./db/dataLoader');
+const movieRepository = require('./db/movieRepository');
 
 const APP_ID = '[your app id]';
 const SKILL_NAME = 'Suggest Movie';
