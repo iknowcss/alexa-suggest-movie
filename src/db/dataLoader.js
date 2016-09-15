@@ -5,6 +5,7 @@ const Papa = require('papaparse');
 const forEach = require('lodash/foreach');
 const cloneDeep = require('lodash/cloneDeep');
 const merge = require('lodash/merge');
+const map = require('lodash/map');
 
 var readFile = Promise.promisify(fs.readFile);
 
@@ -95,23 +96,32 @@ function loadRatings(refresh) {
 
 /// - Put it all together ------------------------------------------------------
 
-function loadMovieData() {
-  return Promise.join(loadMovies(), loadRatings(), function (movies, ratings) {
-    const indexedData = {};
+var movieDataCache;
 
-    forEach(movies, function (movie) {
-      var ratingData = ratings[movie.id] || buildBaseRatingData();
-      indexedData[movie.id] = merge(cloneDeep(movie), ratingData);
+function getAllMovies(refresh) {
+  if (movieDataCache && !refresh) {
+    return Promise.resolve(movieDataCache);
+  }
+
+  return (preloadCsvDataPromise || preloadCsvData())
+    .then(function () {
+      return Promise.join(loadMovies(), loadRatings(), function (movies, ratings) {
+        return movieDataCache = map(movies, function (movie) {
+          var ratingData = ratings[movie.id] || buildBaseRatingData();
+          return merge(cloneDeep(movie), ratingData);
+        });
+      });
     });
-
-    return indexedData;
-  });
 }
 
 /// - Caching features ---------------------------------------------------------
 
-function warmCache() {
-  return Promise.all([loadMovies(), loadRatings()])
+var preloadCsvDataPromise;
+
+function preloadCsvData() {
+  if (preloadCsvDataPromise) return preloadCsvDataPromise;
+
+  return preloadCsvDataPromise = Promise.all([loadMovies(), loadRatings()])
     .then(function () {
       return null;
     });
@@ -122,6 +132,6 @@ function warmCache() {
 module.exports = {
   loadMovies: loadMovies,
   loadRatings: loadRatings,
-  loadMovieData: loadMovieData,
-  warmCache: warmCache
+  getAllMovies: getAllMovies,
+  preloadCsvData: preloadCsvData
 };

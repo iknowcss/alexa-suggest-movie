@@ -1,15 +1,19 @@
-var http = require('http');
-var Alexa = require('alexa-sdk');
+const http = require('http');
+const Alexa = require('alexa-sdk');
+const dataLoader = require('./db/dataLoader');
 
-var APP_ID = '[your app id]';
-var SKILL_NAME = 'Suggest Movie';
+const APP_ID = '[your app id]';
+const SKILL_NAME = 'Suggest Movie';
 
-var handlers = {
+dataLoader.preloadCsvData();
+
+const handlers = {
     'LaunchRequest': function () {
         this.emit('GetMovie');
     },
 
     'SuggestMovie': function () {
+        this.emit(':tell', 'Let me see what I can find');
         this.emit('GetMovie');
     },
 

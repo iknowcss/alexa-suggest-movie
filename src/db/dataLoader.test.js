@@ -1,12 +1,12 @@
-var process = require('./process');
+var dataLoader = require('./dataLoader');
 
 describe('data processing', function () {
   before(function () {
-    return process.warmCache();
+    return dataLoader.preloadCsvData();
   });
 
   it('parses movie data', function () {
-    return process.loadMovies()
+    return dataLoader.loadMovies()
       .then(function (result) {
         expect(result['1']).to.eql({
           id: '1',
@@ -17,7 +17,7 @@ describe('data processing', function () {
   });
 
   it('aggregates rating data', function () {
-    return process.loadRatings()
+    return dataLoader.loadRatings()
       .then(function (result) {
         expect(result['1']).to.eql({
           ratingTotal: 90650,
@@ -28,9 +28,9 @@ describe('data processing', function () {
   });
 
   it('combines all data', function () {
-    return process.loadMovieData()
+    return dataLoader.getAllMovies()
       .then(function (result) {
-        expect(result['1']).to.eql({
+        expect(result[0]).to.eql({
           id: '1',
           title: 'Toy Story (1995)',
           genres: ['Adventure', 'Animation', 'Children', 'Comedy', 'Fantasy'],
