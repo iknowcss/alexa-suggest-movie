@@ -20,10 +20,27 @@ const handlers = {
   'GetMovie': function () {
     // Create speech output
     var emotion = this.event.request.intent.slots.emotion.value;
+    var emotion2 = this.event.request.intent.slots.fred.value;
+    var emotion3 = this.event.request.intent.slots.mary.value;
+    var speechOutput = 'You already feel that way';
+
+    if (emotion) {
+      if (emotion2) {
+        if (emotion3) {
+          speechOutput = 'You will feel ' + emotion + ' ' + emotion2 + 'and '+ emotion3;
+        }
+        else {
+          speechOutput = 'You will feel ' + emotion + ' and ' + emotion2;
+        }
+      }
+      else {
+        speechOutput = 'You will feel ' + emotion ;
+      }
+    }
 
     var movies = movieRepository.getAllMoviesSync();
     var movie = movies[0];
-    var speechOutput = 'You will feel ' + emotion + 'after watching ' + movie.title;
+    var speechOutput = speechOutput + ' after watching ' + movie.title;
 
     this.emit(':tellWithCard', speechOutput, SKILL_NAME, movie.title);
   },
@@ -41,3 +58,4 @@ exports.handler = function (event, context) {
   alexa.registerHandlers(handlers);
   alexa.execute();
 };
+
