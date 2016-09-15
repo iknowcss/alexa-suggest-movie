@@ -1,4 +1,5 @@
 var defer = require('lodash/defer');
+var map = require('lodash/map');
 var movieRepository = require('./movieRepository');
 
 describe('Movie repository', function () {
@@ -49,6 +50,10 @@ describe('Movie repository', function () {
       emotions: ['exhilarated', 'inspired']
     });
 
-    console.log('result.length', result.length);
+    var movieTitles = map(result, function (movie) {
+      return movie.title;
+    });
+
+    expect(movieTitles).to.contain('Sleeper (1973)');
   });
 });
