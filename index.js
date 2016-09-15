@@ -14,7 +14,6 @@ const handlers = {
   },
 
   'SuggestMovie': function () {
-    this.emit(':tell', 'Let me see what I can find');
     this.emit('GetMovie');
   },
 
