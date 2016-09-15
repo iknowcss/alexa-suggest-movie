@@ -173,6 +173,8 @@ function search(options) {
 
 function filterByEmotions(emotions) {
   const matchingGenres = emotionGenreMapper.genresforEmotions(emotions);
+  console.log(emotions);
+  console.log(matchingGenres);
 
   return function (movies) {
     return filter(movies, function (movie) {
@@ -200,6 +202,7 @@ module.exports = {
   loadMovies: loadMovies,
   loadRatings: loadRatings,
   getAllMovies: getAllMovies,
+  filterByEmotions: filterByEmotions,
   getAllMoviesSync: syncify(getAllMovies),
   search: search,
   searchSync: syncify(search),

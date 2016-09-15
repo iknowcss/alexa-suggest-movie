@@ -43,12 +43,11 @@ const handlers = {
       }
     }
 
-    var movies = movieRepository.getAllMoviesSync();
+    var movies = movieRepository.filterByEmotions(emotions);
     var movie = movies[0];
-
-    var genres =  emotionGenreMapper.genresforEmotions(emotions);
-
     var speechOutput = speechOutput + ' after watching ' + movie.title;
+      //var genres =  emotionGenreMapper.genresforEmotions(emotions);
+    //var speechOutput = 'you should watch movies in the ' + genres[0] + ' genre if you feel ' + emotions[0];
 
     this.emit(':tellWithCard', speechOutput, SKILL_NAME, movie.title);
   },
