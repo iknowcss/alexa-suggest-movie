@@ -45,15 +45,17 @@ describe('Movie repository', function () {
     });
   });
 
-  it('synchronously searches for movies which match the given emotions', function () {
-    var result = movieRepository.searchSync({
-      emotions: ['exhilarated', 'inspired']
-    });
+  describe('searching', function () {
+    it('synchronously searches for movies which match the given emotions', function () {
+      var result = movieRepository.searchSync({
+        emotions: ['exhilarated', 'inspired']
+      });
 
-    var movieTitles = map(result, function (movie) {
-      return movie.title;
-    });
+      var movieTitles = map(result, function (movie) {
+        return movie.title;
+      });
 
-    expect(movieTitles).to.contain('Sleeper (1973)');
+      expect(movieTitles).to.contain('Sleeper (1973)');
+    });
   });
 });
