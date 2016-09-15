@@ -208,6 +208,7 @@ module.exports = {
   loadMovies: loadMovies,
   loadRatings: loadRatings,
   getAllMovies: getAllMovies,
+  filterByEmotions: filterByEmotions,
   getAllMoviesSync: syncify(getAllMovies),
   search: search,
   searchSync: syncify(search),

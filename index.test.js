@@ -71,12 +71,12 @@ describe('index', function () {
       randomMock.returns(1);
       handlers['GetMovie'].call(mockAlexaObject);
       lastSuggestion = mockAlexaObject.emit.lastCall.args[1];
-      expect(lastSuggestion).to.eql('You will feel scared after watching Jumanji (1995)');
+      expect(lastSuggestion).to.eql('You will feel scared after watching Heaven & Earth (1993)');
 
       randomMock.returns(7);
       handlers['GetMovie'].call(mockAlexaObject);
       lastSuggestion = mockAlexaObject.emit.lastCall.args[1];
-      expect(lastSuggestion).to.eql('You will feel scared after watching Tom and Huck (1995)');
+      expect(lastSuggestion).to.eql('You will feel scared after watching Beast of War, The (Beast, The) (1988)');
     });
   });
 });
