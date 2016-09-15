@@ -7,7 +7,7 @@
     "build": "rm -rf dist/ 2> /dev/null && mkdir dist && zip_path=\"dist/moveme-lambda.zip\" && echo \"Zip to: $zip_path\" && zip -9 -q -r $zip_path package.json index.js index.test.js src/ node_modules/ && du -k \"$zip_path\"",
     "test": "mocha  --watch-extensions js,json src/.mocha.js '**/*.test.js'",
     "test.coverage": "istanbul cover ./node_modules/.bin/_mocha -- --watch-extensions js,json src/.mocha.js '**/*.test.js'",
-    "test.zip": "npm run build && cd dist && unzip alexa-suggest-movie_*.zip && ../node_modules/.bin/mocha ../src/.mocha.js '**/*.test.js' && cd ../ && rm -rf dist"
+    "test.zip": "npm run build && cd dist && unzip moveme-lambda.zip && ../node_modules/.bin/mocha ../src/.mocha.js '**/*.test.js' && cd ../ && rm -rf dist"
   },
   "repository": {
     "type": "git",
