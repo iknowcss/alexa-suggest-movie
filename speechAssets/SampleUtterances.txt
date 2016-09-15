@@ -1,5 +1,7 @@
 SuggestMovie which makes me {emotion}
-
+SuggestMovie I'd like to feel {emotion}
+SuggestMovie I want to feel {emotion}
+SuggestMovie I want to be {emotion}
 
 HelpIntent help
 HelpIntent help me
