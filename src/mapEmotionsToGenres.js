@@ -1,4 +1,4 @@
-var genre_emotions = require('../data/genre_emotions.json')
+var genre_emotions = require('./data/genre_emotions.json')
 
 module.exports = function (emotions) {
 
