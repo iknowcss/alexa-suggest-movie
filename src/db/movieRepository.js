@@ -9,18 +9,42 @@ const merge = require('lodash/merge');
 const map = require('lodash/map');
 const filter = require('lodash/filter');
 
-const returnNull = function () {
-  return null;
-};
-const readFile = Promise.promisify(fs.readFile);
-
-
 const DATA_DIR_PATH = path.resolve(__dirname, '../../data');
 const MOVIES_CSV = 'ml-latest-small/movies.csv';
 const RATINGS_CSV = 'ml-latest-small/ratings.csv';
 
+/// - Utility functions --------------------------------------------------------
 
+const readFile = Promise.promisify(fs.readFile);
 
+function returnNull() {
+  return null;
+}
+
+function syncify(fn) {
+  return function () {
+    var fulfillResult;
+    var rejectResult;
+
+    fn()
+      .then(function (result) {
+        fulfillResult = result;
+      })
+      .catch(function (result) {
+        rejectResult = result;
+      });
+
+    deasync.loopWhile(function () {
+      return !fulfillResult && !rejectResult;
+    });
+
+    if (fulfillResult) {
+      return fulfillResult;
+    }
+
+    throw rejectResult;
+  };
+}
 
 /// - Core CSV processing ------------------------------------------------------
 
@@ -158,20 +182,7 @@ module.exports = {
   loadMovies: loadMovies,
   loadRatings: loadRatings,
   getAllMovies: getAllMovies,
-  getAllMoviesSync: function () {
-    var syncResult;
-    
-    getAllMovies()
-      .then(function (result) {
-        syncResult = result;
-      });
-
-    deasync.loopWhile(function () {
-      return !syncResult;
-    });
-
-    return syncResult;
-  },
+  getAllMoviesSync: syncify(getAllMovies),
   search: search,
   init: function () {
     return init()
