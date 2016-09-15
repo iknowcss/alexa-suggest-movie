@@ -5,9 +5,9 @@ const sandbox = sinon.sandbox.create();
 const alexaMock = {};
 const randomMock = sandbox.stub();
 
-const index = proxyquire('./index', {
+const alexaHandler = proxyquire('./alexaHandler', {
   'alexa-sdk': alexaMock,
-  './src/random': randomMock
+  '../random': randomMock
 });
 
 describe('index', function () {
@@ -35,7 +35,7 @@ describe('index', function () {
     var handlers;
 
     function setup(event, context) {
-      index.handler(event, context);
+      alexaHandler(event, context);
       handlers = mockAlexaObject.registerHandlers.firstCall.args[0];
     }
 
