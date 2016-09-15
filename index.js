@@ -3,6 +3,7 @@ const Alexa = require('alexa-sdk');
 const get = require('lodash/get');
 const movieRepository = require('./src/db/movieRepository');
 const random = require('./src/random');
+const updateHandler = require('./src/handler/updateHandler');
 
 const APP_ID = '[your app id]';
 const SKILL_NAME = 'Suggest Movie';
@@ -72,4 +73,6 @@ exports.handler = function (event, context) {
   alexa.registerHandlers(handlers);
   alexa.execute();
 };
+
+exports.updateHandler = updateHandler;
 
