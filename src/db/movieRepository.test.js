@@ -1,6 +1,6 @@
-var movieRepository = require('./dataLoader');
+var movieRepository = require('./movieRepository');
 
-describe('data processing', function () {
+describe('Movie repository', function () {
   before(function () {
     return movieRepository.init();
   });
