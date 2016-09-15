@@ -28,7 +28,7 @@ const handlers = {
     if (emotion) {
       if (emotion2) {
         if (emotion3) {
-          speechOutput = 'You will feel ' + emotion + ' ' + emotion2 + 'and '+ emotion3;
+          speechOutput = 'You will feel ' + emotion + ' ' + emotion2 + ' and '+ emotion3;
         }
         else {
           speechOutput = 'You will feel ' + emotion + ' and ' + emotion2;
