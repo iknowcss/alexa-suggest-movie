@@ -1,6 +1,12 @@
 SuggestMovie suggest a movie which makes me feel {emotion} {fred} and {mary}
 SuggestMovie suggest a movie which makes me feel {emotion} and {fred}
 SuggestMovie suggest a movie which makes me feel {emotion}
+SuggestMovie find a movie to make me feel {emotion}
+SuggestMovie find a movie to make me {emotion}
+SuggestMovie find a {emotion} movie
+SuggestMovie tell me about a movie to make me feel {emotion}
+SuggestMovie tell me about a movie to make me {emotion}
+SuggestMovie tell me about a {emotion} movie
 
 HelpIntent help
 HelpIntent help me
