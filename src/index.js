@@ -21,13 +21,11 @@ const handlers = {
     // Create speech output
     var emotion = this.event.request.intent.slots.emotion.value;
 
-    movieRepository.getAllMovies()
-      .then(function (movies) {
-        var movie = movies[0];
-        var speechOutput = 'You will feel ' + emotion + 'after watching ' + movie.title;
+    var movies = movieRepository.getAllMoviesSync();
+    var movie = movies[0];
+    var speechOutput = 'You will feel ' + emotion + 'after watching ' + movie.title;
 
-        this.emit(':tellWithCard', speechOutput, SKILL_NAME, movie.title);
-      });
+    this.emit(':tellWithCard', speechOutput, SKILL_NAME, movie.title);
   },
 
   'AMAZON.HelpIntent': function () {

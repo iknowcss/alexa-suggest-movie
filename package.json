@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "test": "mocha  --watch-extensions js,json src/.mocha.js 'src/**/*.test.js'",
-    "build": "rm -rf dist/ 2> /dev/null && mkdir dist && zip -9 -r dist/alexa-suggest-movie.zip package.json node_modules/ && cd src && zip -9 -r ../dist/alexa-suggest-movie.zip * && cd .."
+    "build": "npm i && rm -rf dist/ 2> /dev/null && mkdir dist && zip -9 -r dist/alexa-suggest-movie.zip package.json node_modules/ && cd src && zip -9 -r ../dist/alexa-suggest-movie.zip * && cd .."
   },
   "repository": {
     "type": "git",
@@ -29,6 +29,7 @@
   "dependencies": {
     "alexa-sdk": "^1.0.0",
     "bluebird": "^3.4.6",
+    "deasync": "^0.1.7",
     "lodash": "^4.15.0",
     "papaparse": "^4.1.2"
   }
