@@ -2,7 +2,12 @@
   "intents": [
     {
       "intent": "SuggestMovie",
-      "slots": []
+      "slots": [
+        {
+          "name": "emotion",
+          "type": "LIST_OF_EMOTIONS"
+        }
+      ]
     },
     {
       "intent": "HelpIntent",
