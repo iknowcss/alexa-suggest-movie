@@ -1,6 +1,6 @@
 var process = require('./process');
 
-describe.only('data processing', function () {
+describe('data processing', function () {
   it('parses movies', function () {
     return process()
       .then(function (result) {
