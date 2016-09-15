@@ -24,11 +24,11 @@ module.exports = function (emotions) {
     }, this);
 
     if (matches) {
-      console.log("emotions:" + emotions + " matches genre:" + genreKey);
+      //console.log("emotions:" + emotions + " matches genre:" + genreKey);
       matching_genres.push(genreKey)
     }
   }
 
-  console.log("emotions:" + emotions + " matches genres:" + matching_genres);
+  //console.log("emotions:" + emotions + " matches genres:" + matching_genres);
   return matching_genres;
 };
