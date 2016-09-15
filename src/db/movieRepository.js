@@ -77,7 +77,8 @@ function loadDataFromCsv(dataPath) {
 
 /// - Process movies -----------------------------------------------------------
 
-var moviesCache = require('./movies.json');
+// var moviesCache = require('./movies.json');
+var moviesCache;
 
 function loadMovies(refresh) {
   if (moviesCache && !refresh) {
@@ -110,7 +111,8 @@ function buildBaseRatingData() {
   };
 }
 
-var ratingsCache = require('./ratings.json');
+// var ratingsCache = require('./ratings.json');
+var ratingsCache;
 
 function loadRatings(refresh) {
   if (ratingsCache && !refresh) {
