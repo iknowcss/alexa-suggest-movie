@@ -12,7 +12,7 @@ deploy:
   secret_access_key:
     secure: nKwm6DsI/WC0RE4wuwnD7pbYq6px8+al7lX/wRneOxGBpYO2toYI6L9IoNiWci6n3rv81Eso0UXMJnjWmNjq/4YHgf/uN82gw9AgN8PQ/uzSvmMAliysMnpOYAIZCZe/XXqWZR+s4XbzBYQ2RqPwjIGl7EpGSVtsyRQUYNseFkh3lSPk6Y3kKFsBfkhRZNbfN5HqXobIeDChJQOOoWUZR5IgnJL2/kqgDQUE/5vXTSDObJ9mZVJ2geahF5GteEcO0RuYOgmH6tkePSG2Fnu7q0pgRUGGXHD6dgwxKkvLVzCias2C7++ydJQLwHQALnVhXFKwR6/fX1VGHMSSEb9IVBQ1FazCgDwnNRItJ9UiEujYFvd8NdGozLlJsTtcpB6b30lGmLgMCc9vOJSiW0WxGdgS17QuyJXlBH0S/NoLseV7O3zNjotlnv3VMegadqDpv51VByWpsq/a7yoflI2PuJ+31eXtgWNjLXpOQxmGWXblKGvN8Kb/K5d4eCAXc+aRmc+JXevOlNbROrIyRxZ1BJ3izuDtFsrF74jHWVP2P+FMTxPy/JXy1idD2tktP+0u8ijqb3CQv189E/hxso+w4iMOe5x+uAa6QMHBnx4YzfbZeecdJKhGrU+9+VI27cGA9X5TxHWCk2+gXZeabj4MTsPQpzDQ8TqNWPMSBc0bbTc=
   bucket: moveme-iknowcss
-  local-dir: dist/
+  local-dir: ./dist
   acl: private
   on:
     repo: iknowcss/alexa-suggest-movie
