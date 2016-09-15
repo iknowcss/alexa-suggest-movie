@@ -9,6 +9,7 @@ const merge = require('lodash/merge');
 const map = require('lodash/map');
 const filter = require('lodash/filter');
 const findIndex = require('lodash/findIndex');
+const sortBy = require('lodash/sortBy');
 
 const mapEmotionsToGenres = require('../mapEmotionsToGenres');
 
@@ -169,6 +170,7 @@ function search(options) {
 
   return getAllMovies()
     .then(filterByEmotions(options.emotions))
+    .then(sortByAverageRating);
 }
 
 function filterByEmotions(emotions) {
@@ -181,6 +183,12 @@ function filterByEmotions(emotions) {
       });
     });
   };
+}
+
+function sortByAverageRating(movies) {
+  return sortBy(movies, function (movie) {
+    return 0 - movie.averageRating;
+  });
 }
 
 /// - Caching features ---------------------------------------------------------

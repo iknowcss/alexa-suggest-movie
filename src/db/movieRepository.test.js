@@ -1,5 +1,6 @@
 var defer = require('lodash/defer');
 var map = require('lodash/map');
+var pick = require('lodash/pick');
 var movieRepository = require('./movieRepository');
 
 describe('Movie repository', function () {
@@ -46,16 +47,42 @@ describe('Movie repository', function () {
   });
 
   describe('searching', function () {
-    it('synchronously searches for movies which match the given emotions', function () {
-      var result = movieRepository.searchSync({
+    var results;
+
+    function runSearch(options) {
+      results = movieRepository.searchSync(options);
+    }
+
+    function resultsWithFields() {
+      var fields = [].slice.call(arguments);
+      return map(results, function (movie) {
+        return pick(movie, fields);
+      });
+    }
+
+    it('searches for movies which match the given emotions', function () {
+      runSearch({
         emotions: ['exhilarated', 'inspired']
       });
 
-      var movieTitles = map(result, function (movie) {
-        return movie.title;
+      expect(resultsWithFields('title')).to.contain({title: 'Sleeper (1973)'});
+    });
+
+    it('searches for movies which match the given emotions', function () {
+      runSearch({
+        emotions: ['exhilarated', 'inspired']
       });
 
-      expect(movieTitles).to.contain('Sleeper (1973)');
+      results.forEach(function (movie, i) {
+        if (i <= 0) return;
+
+        var betterMovie = results[i - 1];
+        assert(
+          betterMovie.averageRating >= movie.averageRating,
+          'Expected "' + betterMovie.title + '" (rated ' + betterMovie.averageRating + ') ' +
+          'to be at least as highly rated as  "' + movie.title + '" (rated ' + movie.averageRating + ')'
+        );
+      });
     });
   });
 });
