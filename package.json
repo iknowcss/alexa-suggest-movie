@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "test": "mocha src/.mocha.js 'src/**/*.test.js'",
-    "build": "rm -rf dist/ 2> /dev/null && mkdir dist && zip -9 -r dist/alexa-suggest-movie.zip package.json src/ node_modules/"
+    "build": "rm -rf dist/ 2> /dev/null && mkdir dist && zip -9 -r dist/alexa-suggest-movie.zip package.json node_modules/ && cd src && zip -9 -r ../dist/alexa-suggest-movie.zip * && cd .."
   },
   "repository": {
     "type": "git",
@@ -25,5 +25,9 @@
     "mocha": "^3.0.2",
     "sinon": "^1.17.5",
     "sinon-chai": "^2.8.0"
+  },
+  "dependencies": {
+    "bluebird": "^3.4.6",
+    "papaparse": "^4.1.2"
   }
 }
