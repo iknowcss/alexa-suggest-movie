@@ -6,8 +6,11 @@ const forEach = require('lodash/foreach');
 const cloneDeep = require('lodash/cloneDeep');
 const merge = require('lodash/merge');
 const map = require('lodash/map');
+const filter = require('lodash/filter');
 
-var readFile = Promise.promisify(fs.readFile);
+var readFile = function (path, options) {
+  fs.readFileSync(path, options);
+};
 
 const DATA_DIR_PATH = path.resolve(__dirname, '../../data');
 const MOVIES_CSV = 'ml-latest-small/movies.csv';
@@ -114,6 +117,25 @@ function getAllMovies(refresh) {
     });
 }
 
+/// - Search -------------------------------------------------------------------
+
+var DEFAULT_OPTIONS = {
+  emotions: []
+};
+
+function search(options) {
+  options = merge({}, DEFAULT_OPTIONS, options);
+
+  return getAllMovies()
+    .then(filterByEmotions(options.emotions))
+}
+
+function filterByEmotions(emotions) {
+  return function (movies) {
+    filter()
+  };
+}
+
 /// - Caching features ---------------------------------------------------------
 
 var initPromise;
@@ -133,5 +155,9 @@ module.exports = {
   loadMovies: loadMovies,
   loadRatings: loadRatings,
   getAllMovies: getAllMovies,
-  init: init
+  search: search,
+  init: function () {
+    init();
+    getAllMovies();
+  }
 };
