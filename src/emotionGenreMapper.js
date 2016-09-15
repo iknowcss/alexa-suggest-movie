@@ -1,6 +1,6 @@
 var genre_emotions = require('./data/genre_emotions.json')
 
-module.exports = function (emotions) {
+function genresforEmotions(emotions) {
 
   var matching_genres = [];
 
@@ -31,4 +31,8 @@ module.exports = function (emotions) {
 
   //console.log("emotions:" + emotions + " matches genres:" + matching_genres);
   return matching_genres;
+};
+
+module.exports = {
+  genresforEmotions: genresforEmotions,
 };

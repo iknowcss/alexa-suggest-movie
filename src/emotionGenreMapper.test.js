@@ -1,4 +1,4 @@
-var mapEmotionsToGenres = require('./mapEmotionsToGenres');
+var mapEmotionsToGenres = require('./emotionGenreMapper');
 
 describe('mapEmotionsTo', function () {
   it('maps a single emotion (scared) to one or more genres', function () {

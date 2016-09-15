@@ -2,6 +2,7 @@ const http = require('http');
 const Alexa = require('alexa-sdk');
 const get = require('lodash/get');
 const movieRepository = require('./db/movieRepository');
+const emotionGenreMapper = require('./emotionGenreMapper');
 
 const APP_ID = '[your app id]';
 const SKILL_NAME = 'Suggest Movie';
@@ -24,23 +25,30 @@ const handlers = {
     var emotion2 = get(this.event, 'request.intent.slots.fred.value');
     var emotion3 = get(this.event, 'request.intent.slots.mary.value');
     var speechOutput = 'You already feel that way';
+    var emotions = [];
 
     if (emotion) {
       if (emotion2) {
         if (emotion3) {
           speechOutput = 'You will feel ' + emotion + ' ' + emotion2 + ' and '+ emotion3;
+          emotions.push(emotion3);
         }
         else {
           speechOutput = 'You will feel ' + emotion + ' and ' + emotion2;
+          emotions.push(emotion2);
         }
       }
       else {
         speechOutput = 'You will feel ' + emotion ;
+        emotions.push(emotion);
       }
     }
 
     var movies = movieRepository.getAllMoviesSync();
     var movie = movies[0];
+
+    var genres =  emotionGenreMapper.genresforEmotions(emotions);
+
     var speechOutput = speechOutput + ' after watching ' + movie.title;
 
     this.emit(':tellWithCard', speechOutput, SKILL_NAME, movie.title);

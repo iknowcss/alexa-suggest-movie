@@ -1,7 +1,6 @@
-SuggestMovie which makes me {emotion}
-SuggestMovie I'd like to feel {emotion}
-SuggestMovie I want to feel {emotion}
-SuggestMovie I want to be {emotion}
+SuggestMovie suggest a movie which makes me feel {emotion} {fred} and {mary}
+SuggestMovie suggest a movie which makes me feel {emotion} and {fred}
+SuggestMovie suggest a movie which makes me feel {emotion}
 
 HelpIntent help
 HelpIntent help me
