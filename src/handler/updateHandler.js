@@ -14,8 +14,6 @@ module.exports = function (event, context) {
   const versionId = get(s3, 'object.versionId');
 
   if (bucketName == BUCKET_NAME && objectKey == OBJECT_KEY && versionId) {
-    console.info('Upload to lambda function: ' + FUNCTION_NAME);
-
     const params = {
       FunctionName: FUNCTION_NAME,
       S3Key: objectKey,
@@ -23,12 +21,14 @@ module.exports = function (event, context) {
       S3ObjectVersion: versionId
     };
 
+    console.info('Update lambda function code from S3:', params);
+
     lambda.updateFunctionCode(params, function (err, data) {
       if (err) {
-        console.error(err, err.stack);
+        console.error('Update FAILED:', err.stack);
         context.fail(err);
       } else {
-        console.info(data);
+        console.info('Update successful');
         context.succeed(data);
       }
     });
